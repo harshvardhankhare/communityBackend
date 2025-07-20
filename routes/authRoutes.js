@@ -297,6 +297,12 @@ router.get('/answers/:questionId', async (req, res) => {
 // POST a new answer
 router.post('/answers', async (req, res) => {
   const { questionId, body } = req.body;
+
+    if (!req.session.user) {
+    
+    return res.status(401).json({ message: 'Unauthorized' });
+  }
+console.log("user id or whatever :"+req.session.user)
   const userId = req.session.user; // replace with session user
 
   const answer = new Answer({ question: questionId, user: userId, body });
