@@ -16,7 +16,7 @@ mongoose.connect(process.env.MONGO_URI, {})
   .catch(err => console.log('MongoDB connection error:', err));
 
 // Middleware
-app.use(cors({ origin: 'http://localhost:5173', credentials: true }));
+app.use(cors({ origin: 'https://kodcommunity.netlify.app', credentials: true }));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
