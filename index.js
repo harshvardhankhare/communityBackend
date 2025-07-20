@@ -25,7 +25,12 @@ app.use(session({
   secret: 'fix_secret',
   resave: false,
   saveUninitialized: false,
-  cookie: { secure: false, httpOnly: true },
+  cookie: {
+    secure: true,          // must be true for HTTPS (Render, Netlify)
+    httpOnly: true,
+    sameSite: 'none',      // allows cross-site cookies
+    maxAge: 24 * 60 * 60 * 1000, // 1 day (optional)
+  },
 }));
 
 // Routes
