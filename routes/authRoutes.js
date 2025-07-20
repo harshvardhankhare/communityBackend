@@ -3,6 +3,7 @@ import bcrypt from "bcryptjs";
 import User from "../models/User.js";
 import Question from '../models/Question.js';
 import Conversation from '../models/Conversation.js'
+import Answer from '../models/Answer.js'
 
 const router = express.Router();
 
@@ -285,6 +286,24 @@ router.post('/question/:id/vote', async (req, res) => {
     console.error(err);
     return res.status(500).json({ message: 'Failed to update vote' });
   }
+});
+
+// GET all answers of a question
+router.get('/answers/:questionId', async (req, res) => {
+  const answers = await Answer.find({ question: req.params.questionId }).populate('user', 'username');
+  res.json({ answers });
+});
+
+// POST a new answer
+router.post('/answers', async (req, res) => {
+  const { questionId, body } = req.body;
+  const userId = req.session.user._id; // replace with session user
+
+  const answer = new Answer({ question: questionId, user: userId, body });
+  await answer.save();
+
+  await Question.findByIdAndUpdate(questionId, { $push: { answers: answer._id } });
+  res.status(201).json({ message: 'Answer submitted' });
 });
 
 
