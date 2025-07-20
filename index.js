@@ -26,6 +26,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 // Session configuration (must be after cors)
+app.set('trust proxy', 1); 
 app.use(session({
   secret: 'fix_secret',
   resave: false,
