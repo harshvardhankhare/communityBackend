@@ -297,7 +297,7 @@ router.get('/answers/:questionId', async (req, res) => {
 // POST a new answer
 router.post('/answers', async (req, res) => {
   const { questionId, body } = req.body;
-  const userId = req.session.user._id; // replace with session user
+  const userId = req.session.user; // replace with session user
 
   const answer = new Answer({ question: questionId, user: userId, body });
   await answer.save();
